@@ -21,6 +21,10 @@ Sitio web de estudio para el parcial de **Política Criminal (ICS-402B, UNACHI)*
 
 En total, **240 preguntas** y **69 tarjetas** de estudio.
 
+### Lectura cómoda
+
+![Vista de la lectura guiada](preview-lectura.png)
+
 ## Cómo usarlo
 
 1. Abre el [sitio publicado](https://magdalenagonzalez08.github.io/politica-criminal-ics402b/).
@@ -32,7 +36,7 @@ En total, **240 preguntas** y **69 tarjetas** de estudio.
 Atajos útiles:
 
 - En las flashcards: **Espacio** voltea, **←** marca “otra vez” y **→** marca “la sabía”.
-- En los quizzes: puedes responder con el teclado y avanzar con las flechas.
+- En los quizzes: responde con **1–4** o **A–D** y avanza con **Enter** o **→**.
 - En los parciales: el cronómetro es de 20 minutos y no hay retroalimentación hasta entregar.
 
 El progreso se guarda en `localStorage`, así que queda en el navegador donde estudias. El botón **Borrar mi progreso** lo reinicia todo, incluidas la lectura y las flashcards.
