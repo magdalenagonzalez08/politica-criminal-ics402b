@@ -7,13 +7,28 @@
 (function () {
   "use strict";
 
-  let QUIZZES = window.QUIZZES || [];
+  const P2_LECTURA = ["concepto", "roxin", "origenes", "estado-derecho", "cuatro-d", "prevencion"];
+  const P2_DECKS = ["p2-concepto", "p2-capitulo1", "p2-estado", "p2-cuatro-d", "p2-prevencion"];
+
+  function firstById(list, ids) {
+    return list.slice().sort((a, b) => {
+      const ia = ids.indexOf(a.id);
+      const ib = ids.indexOf(b.id);
+      if (ia === -1 && ib === -1) return 0;
+      if (ia === -1) return 1;
+      if (ib === -1) return -1;
+      return ia - ib;
+    });
+  }
+
+  let QUIZZES = (window.QUIZZES || []).slice().sort((a, b) => Number(!!b.p2) - Number(!!a.p2));
   const VF = window.VF || [];
   let MC = window.MC || [];
-  let PARCIALES = window.PARCIALES || [];
+  let PARCIALES = (window.PARCIALES || []).slice().sort((a, b) => Number(!!b.p2) - Number(!!a.p2));
   const FUENTES = window.FUENTES || [];
-  const LECTURA = window.LECTURA || [];
-  const FLASHCARDS = window.FLASHCARDS || [];
+  const LECTURA = firstById(window.LECTURA || [], P2_LECTURA);
+  const FLASHCARDS = firstById(window.FLASHCARDS || [], P2_DECKS);
+  const PARCIAL2 = window.PARCIAL2 || null;
 
   /* Mezcla determinista de opciones: evita que la respuesta correcta
      caiga siempre en la misma letra. La posición se conserva entre
@@ -84,7 +99,9 @@
     String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
   const fmt = (s) =>
-    esc(s).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+    esc(s)
+      .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+      .replace(/\*(.+?)\*/g, "<em>$1</em>");
 
   const pctOf = (n, total) => (total ? Math.round((n / total) * 100) : 0);
 
@@ -235,6 +252,7 @@
 
   const NAV_BY_ROUTE = {
     "": "inicio",
+    parcial2: "parcial2",
     lectura: "lectura",
     flashcards: "flashcards",
     quizzes: "quizzes",
@@ -336,6 +354,161 @@
 
   /* ---------------- inicio ---------------- */
 
+  /* ---------------- Parcial 2: enfoque oficial ---------------- */
+
+  function renderParcial2() {
+    if (!PARCIAL2) return render404();
+    setCrumb("Parcial 2");
+    setActiveNav("parcial2");
+
+    const tableRows = PARCIAL2.mapa
+      .map(
+        (m) => `<tr>
+          <td><span class="p2-map-num">${esc(m.n)}</span></td>
+          <td><strong>${esc(m.tema)}</strong><br><span class="small muted">${esc(m.autor)}</span></td>
+          <td class="p2-pdf-cell">${esc(m.pdf)}</td>
+          <td>${fmt(m.que)}</td>
+          <td class="p2-map-links"><a href="#/lectura/${esc(m.lectura)}">Leer</a><a href="#/quiz/${esc(m.quiz)}">Quiz</a></td>
+        </tr>`
+      )
+      .join("");
+
+    const topics = PARCIAL2.temas
+      .map((t) => {
+        const table = t.tabla
+          ? `<div class="table-wrap p2-table"><table>
+              <thead><tr>${t.tabla.head.map((h) => `<th>${fmt(h)}</th>`).join("")}</tr></thead>
+              <tbody>${t.tabla.rows
+                .map((r) => `<tr>${r.map((c) => `<td>${fmt(c)}</td>`).join("")}</tr>`)
+                .join("")}</tbody>
+            </table></div>`
+          : "";
+        const quote = t.cita
+          ? `<blockquote class="p2-quote">${fmt(t.cita.texto)}<cite>— ${esc(t.cita.autor)}</cite></blockquote>`
+          : "";
+        const links = t.links
+          .map((l) => `<a class="btn ghost sm" href="${esc(l.href)}">${esc(l.label)}${icon("arrow")}</a>`)
+          .join("");
+        return `<article class="card p2-tema" id="tema-${esc(t.id)}">
+          <div class="p2-tema-head">
+            <span class="p2-num">${esc(t.n)}</span>
+            <div class="p2-tema-title">
+              <span class="p2-tag">${esc(t.etiqueta)}</span>
+              <h3>${esc(t.titulo)}</h3>
+              <p class="p2-pdf">${icon("book")}${esc(t.pdf)}</p>
+            </div>
+          </div>
+          <p class="p2-idea">${fmt(t.idea)}</p>
+          <ul class="p2-list">${t.puntos.map((p) => `<li>${fmt(p)}</li>`).join("")}</ul>
+          ${table}
+          ${quote}
+          <div class="p2-trap">${icon("target")}<div><strong>Ojo con esto:</strong> ${fmt(t.trampa)}</div></div>
+          <div class="p2-links">${links}</div>
+        </article>`;
+      })
+      .join("");
+
+    const cases = PARCIAL2.casos
+      .map(
+        (c, i) => `<details class="card p2-case">
+          <summary><span class="p2-case-num">${String(i + 1).padStart(2, "0")}</span><span>${fmt(c.caso)}</span>${icon("arrow", "arrow")}</summary>
+          <p>${fmt(c.respuesta)}</p>
+        </details>`
+      )
+      .join("");
+
+    content.innerHTML = `
+      <section class="p2-hero">
+        <div class="hero-top">
+          <span class="eyebrow">Parcial 2 · ICS-402B</span>
+          <span class="pill orange">5 temas oficiales</span>
+        </div>
+        <h1>Lo que la profesora pidió, <em>sin ruido</em>.</h1>
+        <p class="lead">${esc(PARCIAL2.intro)}</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#/parcial/parcial-2-oficial">${icon("exam")}Simulacro oficial</a>
+          <a class="btn ghost" href="#/lectura/roxin">${icon("read")}Empezar a leer</a>
+        </div>
+      </section>
+
+      <div class="callout warn" style="margin-top:18px">
+        ${icon("target")}
+        <div><strong>Antes de empezar:</strong> ${fmt(PARCIAL2.aviso)}</div>
+      </div>
+
+      <div class="section-head">
+        <h2>${icon("list")}Mapa de los cinco temas</h2>
+        <p>Qué PDF corresponde a cada uno y por dónde entrar.</p>
+      </div>
+      <div class="table-wrap p2-map">
+        <table>
+          <thead><tr><th>#</th><th>Tema</th><th>PDF</th><th>Qué mirar</th><th>Practicar</th></tr></thead>
+          <tbody>${tableRows}</tbody>
+        </table>
+      </div>
+
+      <div class="section-head">
+        <h2>${icon("book")}Fichas de estudio</h2>
+        <p>Las cinco fichas, con lo que hay que distinguir y la trampa típica.</p>
+      </div>
+      <div class="p2-temas">${topics}</div>
+
+      <div class="section-head">
+        <h2>${icon("target")}Casos para comprobar</h2>
+        <p>Intenta responder antes de abrir la solución.</p>
+      </div>
+      <div class="grid grid-2 p2-cases">${cases}</div>
+
+      <div class="section-head">
+        <h2>${icon("spark")}Datos para memorizar</h2>
+        <p>Los que más se pueden caer en el parcial.</p>
+      </div>
+      <div class="chips">${PARCIAL2.datos.map((d) => `<span class="chip">${esc(d)}</span>`).join("")}</div>
+
+      <div class="section-head">
+        <h2>${icon("check")}Plan de 60 minutos</h2>
+        <p>Si el parcial es pronto, sigue este orden.</p>
+      </div>
+      <div class="grid grid-2">
+        <a class="quick-item" href="#/lectura/roxin">
+          <span class="quick-ico orange">${icon("read")}</span>
+          <span><strong>1. Concepto</strong><span>Roxin, von Liszt, Feuerbach y la dogmática.</span></span>
+          ${icon("arrow", "arrow")}
+        </a>
+        <a class="quick-item" href="#/lectura/origenes">
+          <span class="quick-ico">${icon("book")}</span>
+          <span><strong>2. Capítulo I</strong><span>Las cinco etapas y los nombres.</span></span>
+          ${icon("arrow", "arrow")}
+        </a>
+        <a class="quick-item" href="#/lectura/estado-derecho">
+          <span class="quick-ico orange">${icon("shield")}</span>
+          <span><strong>3. Estado de derecho</strong><span>Límites, misiones, víctima y seguridad.</span></span>
+          ${icon("arrow", "arrow")}
+        </a>
+        <a class="quick-item" href="#/quiz/cuatro-d">
+          <span class="quick-ico">${icon("quiz")}</span>
+          <span><strong>4. Las cuatro D</strong><span>Distingue sanción, cárcel, juicio y delito.</span></span>
+          ${icon("arrow", "arrow")}
+        </a>
+        <a class="quick-item" href="#/quiz/prevencion-diapositivas">
+          <span class="quick-ico orange">${icon("target")}</span>
+          <span><strong>5. Prevención</strong><span>Fuentes, evidencia, espacios y cifras.</span></span>
+          ${icon("arrow", "arrow")}
+        </a>
+        <a class="quick-item" href="#/parcial/parcial-2-oficial">
+          <span class="quick-ico">${icon("exam")}</span>
+          <span><strong>6. Simulacro</strong><span>20 preguntas con tiempo y resultado.</span></span>
+          ${icon("arrow", "arrow")}
+        </a>
+      </div>
+
+      <div class="callout" style="margin-top:20px">
+        ${icon("cards")}
+        <div><strong>Para cerrar:</strong> repasa los mazos “Parcial 2” en <a href="#/flashcards">Flashcards</a> y vuelve a los quizzes que fallaste. La meta no es leerlo todo: es distinguir las trampas.</div>
+      </div>`;
+    updateChrome();
+  }
+
   function renderHome() {
     setCrumb("Inicio");
     setActiveNav("inicio");
@@ -383,12 +556,28 @@
           <span class="pill green">Basado en tus documentos</span>
         </div>
         <h1>Repasa <em>política criminal</em> sin perderte en el intento.</h1>
-        <p class="lead">20 quizzes, 20 de verdadero o falso, 20 de selección múltiple y 10 parciales armados únicamente con la planificación y los materiales de la profesora Diana Núñez. Además, lectura guiada y flashcards para repasar sin prisa.</p>
+        <p class="lead">${QUIZZES.length} quizzes, ${VF.length} de verdadero o falso, ${MC.length} de selección múltiple y ${PARCIALES.length} parciales armados con los materiales de la profesora Diana Núñez. Ahora con una ruta enfocada en los <strong>cinco temas oficiales del Parcial&nbsp;2</strong>.</p>
         <div class="hero-actions">
-          <a class="btn primary" href="#/quizzes">Empezar a repasar ${icon("arrow")}</a>
-          <a class="btn ghost" href="#/pronostico">${icon("target")}Ver pronóstico del parcial</a>
+          <a class="btn primary" href="#/parcial2">${icon("target")}Modo Parcial 2</a>
+          <a class="btn ghost" href="#/quizzes">Ver todos los quizzes ${icon("arrow")}</a>
         </div>
       </section>
+
+      <a class="card p2-banner" href="#/parcial2">
+        <div class="p2-banner-copy">
+          <span class="eyebrow">Parcial 2 · enfoque oficial</span>
+          <h2>Cinco temas. Una sola ruta.</h2>
+          <p>Concepto de política criminal, Capítulo I del Tratado, Estado de derecho, las cuatro D y prevención. Cada tema con su PDF, su ficha, su quiz y sus flashcards.</p>
+          <div class="chips">
+            <span class="chip"><b>01</b> Concepto</span>
+            <span class="chip"><b>02</b> Capítulo I</span>
+            <span class="chip"><b>03</b> Estado de derecho</span>
+            <span class="chip"><b>04</b> Cuatro D</span>
+            <span class="chip"><b>05</b> Prevención</span>
+          </div>
+        </div>
+        <span class="p2-banner-arrow">${icon("arrow")}</span>
+      </a>
 
       <div class="grid grid-4" style="margin-top:16px">
         ${statCard("Quizzes", st.qDone, QUIZZES.length, "quiz", "#/quizzes")}
@@ -433,46 +622,48 @@
       <div class="grid grid-2">
         <div class="card" style="padding:20px">
           <div class="quick-list">
-            <a class="quick-item" href="#/pronostico">
+            <a class="quick-item" href="#/parcial2">
               <span class="quick-ico orange">${icon("target")}</span>
-              <span><strong>1. Lee el pronóstico</strong><span>Temas probables y estilo de preguntas.</span></span>
+              <span><strong>1. Abre el modo Parcial 2</strong><span>Las cinco fichas y el mapa de PDF.</span></span>
               ${icon("arrow", "arrow")}
             </a>
-            <a class="quick-item" href="#/parcial/parcial-10-integrador">
+            <a class="quick-item" href="#/parcial/parcial-2-oficial">
               <span class="quick-ico">${icon("exam")}</span>
-              <span><strong>2. Haz el integrador</strong><span>10 preguntas de todo el curso, con tiempo.</span></span>
+              <span><strong>2. Haz el simulacro oficial</strong><span>20 preguntas de los cinco temas, con tiempo.</span></span>
               ${icon("arrow", "arrow")}
             </a>
-            <a class="quick-item" href="#/quiz/salidas-alternas">
+            <a class="quick-item" href="#/quiz/cuatro-d">
               <span class="quick-ico orange">${icon("check")}</span>
-              <span><strong>3. Cierra con salidas alternas</strong><span>Conciliación, mediación, oportunidad y SCP.</span></span>
+              <span><strong>3. Cierra con las cuatro D</strong><span>La tabla que más se confunde.</span></span>
               ${icon("arrow", "arrow")}
             </a>
           </div>
         </div>
         <div class="card" style="padding:20px">
-          <h3 style="margin-bottom:10px">Datos que más se repiten</h3>
+          <h3 style="margin-bottom:10px">Datos del Parcial 2</h3>
           <div class="chips">
-            <span class="chip"><b>103 → &lt;8</b> homicidios · El Salvador</span>
+            <span class="chip"><b>Roxin</b> · Berlín 1970</span>
+            <span class="chip"><b>Beccaria</b> · 1764</span>
+            <span class="chip"><b>4 D</b> · 4 filtros</span>
+            <span class="chip"><b>9 de 10</b> · programas previos a 1970</span>
             <span class="chip"><b>11.5 → 5.2</b> · Costa Rica</span>
             <span class="chip"><b>40 %</b> · Barrio Seguro</span>
-            <span class="chip"><b>57 %</b> · La Joya</span>
-            <span class="chip"><b>1-3 años</b> · SCP</span>
-            <span class="chip"><b>Arts. 206, 212, 217</b> · CPP</span>
+            <span class="chip"><b>−14 % / −9 %</b> · Ecuador</span>
+            <span class="chip"><b>Tokio 1970</b> · IV Congreso ONU</span>
           </div>
-          <p class="small muted" style="margin-top:14px">Estos datos aparecen en los materiales y son buenos candidatos a pregunta.</p>
+          <p class="small muted" style="margin-top:14px">Estos datos aparecen en los PDF del Parcial 2 y son buenos candidatos a pregunta.</p>
         </div>
       </div>
 
       <div class="section-head">
         <h2>${icon("quiz")}Quizzes por tema</h2>
-        <p>20 recorridos de 5 preguntas.</p>
+        <p>${QUIZZES.length} recorridos de 5 preguntas. Los del Parcial 2 aparecen primero.</p>
       </div>
       <div class="grid grid-quizzes">
         ${QUIZZES.slice(0, 6).map((q, i) => quizCard(q, i)).join("")}
       </div>
       <div style="margin-top:14px">
-        <a class="btn ghost" href="#/quizzes">Ver los 20 quizzes ${icon("arrow")}</a>
+        <a class="btn ghost" href="#/quizzes">Ver los ${QUIZZES.length} quizzes ${icon("arrow")}</a>
       </div>
     `;
     updateChrome();
@@ -486,7 +677,11 @@
     content.innerHTML = `
       <span class="eyebrow">Práctica guiada</span>
       <h1 style="margin:12px 0 8px">Zona de quiz</h1>
-      <p class="lead">20 quizzes de 5 preguntas. Cada respuesta te muestra la explicación y la fuente, para que no memorices a ciegas.</p>
+      <p class="lead">${QUIZZES.length} quizzes de 5 preguntas. Los cinco primeros son del Parcial 2; el resto repasa el curso completo. Cada respuesta te muestra la explicación y la fuente.</p>
+      <div class="callout" style="margin-top:18px">
+        ${icon("target")}
+        <div><strong>Si tu examen es el Parcial 2:</strong> empieza por “Concepto: Roxin y la dogmática”, “Capítulo I”, “Estado de derecho”, “Las cuatro D en casos” y “Prevención: diapositivas”.</div>
+      </div>
       <div class="grid grid-quizzes" style="margin-top:26px">
         ${QUIZZES.map((q, i) => quizCard(q, i)).join("")}
       </div>`;
@@ -692,17 +887,19 @@
 
   function parcialCard(p, index) {
     const r = S.parciales[p.id];
+    const total = p.preguntas.length;
+    const pass = Math.ceil(total * 0.7);
     return `
       <a class="card quiz-card" href="#/parcial/${p.slug}">
         <div class="quiz-card-top">
           <span class="quiz-num">${String(index + 1).padStart(2, "0")}</span>
-          ${r ? `<span class="pill ${r.best >= 7 ? "green" : "orange"}">Mejor: ${r.best}/10</span>` : `<span class="pill">Sin hacer</span>`}
+          ${r ? `<span class="pill ${r.best >= pass ? "green" : "orange"}">Mejor: ${r.best}/${total}</span>` : `<span class="pill">Sin hacer</span>`}
         </div>
         <h3>${esc(p.titulo)}</h3>
         <p>${esc(p.desc)}</p>
         <div class="quiz-card-foot">
           <span>${esc(p.tema)} · ${p.minutos} min</span>
-          <span>10 preguntas ${icon("arrow", "arrow")}</span>
+          <span>${total} preguntas ${icon("arrow", "arrow")}</span>
         </div>
       </a>`;
   }
@@ -712,8 +909,8 @@
     setActiveNav("parciales");
     content.innerHTML = `
       <span class="eyebrow">Simulacros</span>
-      <h1 style="margin:12px 0 8px">Parciales</h1>
-      <p class="lead">10 exámenes de 10 preguntas, con tiempo y sin retroalimentación hasta entregar. Al final ves tu puntaje y la explicación de cada respuesta.</p>
+      <h1 style="margin:12px 0 8px">Parciales y simulacros</h1>
+      <p class="lead">${PARCIALES.length} exámenes con tiempo y sin retroalimentación hasta entregar. El primero es el <strong>Parcial 2 oficial</strong>, de 20 preguntas; los demás son simulacros de 10. Al final ves tu puntaje y la explicación de cada respuesta.</p>
       <div class="callout" style="margin-top:20px">
         ${icon("clock")}
         <div><strong>Así se siente el parcial.</strong> El cronómetro corre, puedes moverte entre preguntas y entregar cuando termines. Los simulacros no reproducen preguntas reales: son una estimación basada en tus materiales.</div>
@@ -866,7 +1063,7 @@
       const ss = String(used % 60).padStart(2, "0");
 
       content.innerHTML = resultHTML({
-        title: score >= 7 ? "Aprobado" : "A reforzar",
+        title: score >= Math.ceil(total * 0.7) ? "Aprobado" : "A reforzar",
         score,
         total,
         review,
@@ -923,7 +1120,7 @@
         <div>
           <span class="eyebrow">Para entender antes de memorizar</span>
           <h1 style="margin:12px 0 8px">Lectura guiada</h1>
-          <p class="lead">${LECTURA.length} capítulos cortos, escritos con los documentos de la carpeta. Cada uno tiene las ideas clave, los artículos y las cifras que sirven para el parcial. No hace falta leerlos en orden, pero sí conviene no saltarse el de salidas alternas.</p>
+          <p class="lead">${LECTURA.length} capítulos cortos, escritos con los documentos de la carpeta. Los seis primeros forman la ruta del Parcial 2; el resto repasa el curso completo. Cada uno tiene las ideas clave, los artículos y las cifras que sirven para el parcial.</p>
         </div>
         <div class="study-progress">
           <strong>${pct}%</strong>
@@ -1273,52 +1470,34 @@
 
   const FORECAST = [
     {
-      t: "Salidas alternas y principio de oportunidad",
+      t: "El concepto de política criminal (Borja Jiménez)",
+      p: 99,
+      why: "Es el primer tema de la lista oficial y el artículo define el concepto desde Roxin. Los nombres y frases que más se pueden preguntar son Roxin (Berlín, 1970), von Liszt (Carta Magna del delincuente) y Feuerbach (métodos represivos).",
+      tags: "Roxin · Von Liszt · Feuerbach · Dogmática"
+    },
+    {
+      t: "Capítulo I del Tratado: orígenes científicos",
       p: 96,
-      why: "La planificación ubica el Parcial 2 como cuestionario presencial dentro del Eje 3, y hay un material de clase dedicado solo a esto. Los artículos 204, 206, 207-211, 212 y 217-219 son el corazón del tema.",
-      tags: "Conciliación · Mediación · SCP · Oportunidad"
+      why: "Es el único PDF del Tratado y tiene una estructura muy preguntable: etapa estática, época dinámica, fase humanitaria, dirección biológica y corriente racionalista. Kleinschrod, Henke y Holtzendorff son los nombres clave.",
+      tags: "Etapas · Beccaria · Kleinschrod · Henke"
     },
     {
-      t: "Bases constitucionales y Código Procesal Penal",
-      p: 92,
-      why: "El Eje 3 arranca con Constitución, Código Penal y Código Procesal Penal. Los artículos 12 y 26 aparecen explicados en el material de salidas alternas y son fáciles de convertir en caso práctico.",
-      tags: "Arts. 12 y 26 · SPA · Garantías"
+      t: "Política criminal en un Estado de derecho",
+      p: 96,
+      why: "El artículo de García Aquino da definición, principios, misión inmediata y mediata, víctima, funcionalismo y seguridad. Es el tema con más material para preguntas de definición y de caso.",
+      tags: "Garantías · Mínima intervención · Víctima · Seguridad"
     },
     {
-      t: "Modelos de política criminal y casos comparados",
-      p: 86,
-      why: "Hay material específico de modelos y un taller con tres casos (El Salvador, Colombia y México). Es el formato que más se parece a “te cuento una situación y eliges qué es”.",
-      tags: "Represivo · Preventivo · Integral · Restaurativo"
+      t: "Estrategias de reacción social: las cuatro D",
+      p: 94,
+      why: "Hay dos fuentes: las diapositivas de la profesora y el Capítulo IV de Reyes Echandía. La tabla de despenalización, desprisionalización, desjudicialización y descriminalización es el candidato más claro a pregunta de caso.",
+      tags: "Despenalización · Desprisionalización · Desjudicialización · Descriminalización"
     },
     {
-      t: "Prevención del delito",
-      p: 80,
-      why: "Dos materiales de clase: políticas de prevención y prevención genérica. Incluyen teoría (ventana rota, criminología ambiental), programas y cifras concretas.",
-      tags: "Programas · Factores · Evidencia"
-    },
-    {
-      t: "Resocialización, reincidencia y cárceles",
-      p: 76,
-      why: "La planificación dedica 1.5 y 1.6 a política penitenciaria y reinserción, y tienes un artículo completo sobre La Joya y La Joyita con datos que sirven para preguntas de detalle.",
-      tags: "La Joya · La Joyita · Reincidencia"
-    },
-    {
-      t: "Criminalización, despenalización y reformas panameñas",
-      p: 72,
-      why: "El material compara las reformas penales de Panamá y menciona leyes concretas (82/2013, 16/2016, 81/2019, 476/2025). Es un tema fácil de preguntar por asociación ley–tema.",
-      tags: "Leyes · Tendencia reactiva"
-    },
-    {
-      t: "Concepto y evolución de la política criminal",
-      p: 66,
-      why: "Es la base del Eje 1. Von Liszt, Feuerbach y Roxin aparecen en la lectura de Borja Jiménez y en García Aquino; conviene tener claras las frases y los años.",
-      tags: "Von Liszt · Feuerbach · Roxin"
-    },
-    {
-      t: "Organismos e instituciones en Panamá",
-      p: 60,
-      why: "El Eje 2 pide analizar funciones, coordinación interinstitucional y el rol de ministerios y sociedad civil. Es más probable como pregunta de relación institución–función.",
-      tags: "Coordinación · MEDUCA · INADEH"
+      t: "Políticas de prevención del delito",
+      p: 90,
+      why: "Las diapositivas traen cinco fuentes, el riesgo de las demandas sociales, la evidencia, la criminología ambiental y programas con cifras. El material de prevención genérica complementa con Tokio 1970 y factores.",
+      tags: "Fuentes · Evidencia · Espacios · Programas"
     }
   ];
 
@@ -1327,17 +1506,17 @@
     setActiveNav("pronostico");
     content.innerHTML = `
       <span class="eyebrow">Antes del examen</span>
-      <h1 style="margin:12px 0 8px">Pronóstico del parcial</h1>
-      <p class="lead">Una estimación de qué mirar primero, construida con la planificación y el peso real de cada material de la carpeta. No es una filtración ni garantiza preguntas.</p>
+      <h1 style="margin:12px 0 8px">Pronóstico del Parcial 2</h1>
+      <p class="lead">Los cinco temas que indicó la profesora, ordenados por peso y por formato de pregunta. No es una filtración: es una guía para no estudiar de más ni de menos.</p>
 
       <div class="callout warn" style="margin-top:22px">
         ${icon("target")}
-        <div><strong>Ojo:</strong> la planificación marca el <strong>Parcial 1</strong> como sustentaciones y el <strong>Parcial 2</strong> como cuestionario presencial dentro del Eje 3. Si tu parcial es el segundo, prioriza salidas alternas y bases legales; si es recuperación o incluye todo, usa la lista completa.</div>
+        <div><strong>La lista oficial es esta:</strong> concepto de política criminal, Capítulo I del Tratado, política criminal en un Estado de derecho, estrategias de reacción social (las cuatro D) y políticas de prevención. Las salidas alternas y los modelos siguen en el sitio, pero <strong>no son parte de esta lista</strong>.</div>
       </div>
 
       <div class="section-head">
         <h2>${icon("target")}Qué es más probable</h2>
-        <p>Ordenado por peso en tus materiales, no por gusto.</p>
+        <p>Ordenado por la lista de la profesora y el peso de cada PDF.</p>
       </div>
 
       ${FORECAST.map((f, i) => `
@@ -1356,32 +1535,33 @@
 
       <div class="section-head">
         <h2>${icon("quiz")}Cómo suele preguntar</h2>
-        <p>Según el tipo de actividades de la planificación y los talleres.</p>
+        <p>Con estos cinco temas, el formato más probable es definición + autor + caso.</p>
       </div>
       <div class="card" style="padding:20px">
         <div class="prose">
           <ul>
-            <li><strong>Te plantea una situación y tú eliges la figura.</strong> “Dos partes llegan a un acuerdo con un tercero neutral… ¿qué es?”.</li>
-            <li><strong>Pide distinguir figuras parecidas.</strong> Conciliación no es lo mismo que mediación, y ninguna es igual a la SCP o al criterio de oportunidad.</li>
-            <li><strong>Pregunta por el artículo o la ley.</strong> Especialmente 204, 206, 207-211, 212 y 217-219 del CPP.</li>
-            <li><strong>Usa datos de los materiales.</strong> Cifras de homicidios, años de las leyes, porcentajes de reincidencia.</li>
-            <li><strong>Pide argumentar.</strong> “¿Es justificable sacrificar garantías?”, “¿qué falló?”, “¿qué alternativa propones?”.</li>
+            <li><strong>Definición con autor.</strong> “¿Cómo define Roxin la política criminal?”, “¿quién dijo que es el conjunto de métodos represivos?”.</li>
+            <li><strong>Distinguir autores.</strong> Roxin no es von Liszt, y Feuerbach no es Beccaria. La trampa es mezclar la frase con el autor.</li>
+            <li><strong>Distinguir las cuatro D en un caso.</strong> “Una falta pasa a multa administrativa… ¿qué es?”. La respuesta se juega en si cambia la sanción, la cárcel, el juicio o la definición del delito.</li>
+            <li><strong>Límites del Estado de derecho.</strong> “¿Puede castigarse una conducta que todavía no pone en riesgo un bien jurídico?”. La respuesta es no: mínima intervención y lesividad.</li>
+            <li><strong>Historia del Capítulo I.</strong> Etapas, Beccaria, Kleinschrod, Henke y Holtzendorff; no definiciones.</li>
+            <li><strong>Prevención con evidencia y cifras.</strong> Las cinco fuentes, el 9 de 10, Costa Rica 11.5→5.2, Barrio Seguro 40 % y Ecuador −14 %/−9 %.</li>
           </ul>
         </div>
       </div>
 
       <div class="section-head">
         <h2>${icon("list")}La tabla que hay que dominar</h2>
-        <p>Cuatro figuras que se confunden todo el tiempo.</p>
+        <p>Las cuatro D se confunden todo el tiempo.</p>
       </div>
       <div class="table-wrap">
         <table>
-          <thead><tr><th>Figura</th><th>Norma</th><th>Quién la aplica</th><th>Efecto</th></tr></thead>
+          <thead><tr><th>Estrategia</th><th>Qué toca</th><th>Qué pasa con la conducta</th><th>Ejemplo</th></tr></thead>
           <tbody>
-            <tr><td><strong>Conciliación</strong></td><td>Art. 206 CPP</td><td>Víctima e imputado, con acuerdo voluntario</td><td>Suspende la acción penal; se extingue si se cumple todo lo pactado.</td></tr>
-            <tr><td><strong>Mediación</strong></td><td>Arts. 207-211 CPP</td><td>Tercero neutral del Centro de Métodos Alternos</td><td>Proceso suspendido hasta 1 mes (prorrogable); con acuerdo, 1 año para verificar. Si cumple, archivo.</td></tr>
-            <tr><td><strong>Criterio de oportunidad</strong></td><td>Art. 212 CPP</td><td>Ministerio Público</td><td>Prescinde total o parcialmente de la acción penal.</td></tr>
-            <tr><td><strong>Suspensión condicional del proceso</strong></td><td>Arts. 217-219 CPP</td><td>Juez, en audiencia</td><td>Impone condiciones por 1 a 3 años; si cumple, extingue la acción penal.</td></tr>
+            <tr><td><strong>Despenalización</strong></td><td>La sanción penal</td><td>Sigue regulada, pero pasa a otra jurisdicción (civil, comercial o administrativa).</td><td>Una falta antes castigada con cárcel pasa a multa administrativa.</td></tr>
+            <tr><td><strong>Desprisionalización</strong></td><td>La ejecución de la pena</td><td>Sigue siendo delito, pero se cumple fuera de la cárcel.</td><td>Trabajo comunitario o libertad vigilada.</td></tr>
+            <tr><td><strong>Desjudicialización</strong></td><td>El proceso</td><td>El conflicto se resuelve sin juicio formal.</td><td>Mediación o conciliación.</td></tr>
+            <tr><td><strong>Descriminalización</strong></td><td>La definición del delito</td><td>La conducta deja de ser delito; pasa a ser lícita o indiferente.</td><td>Derogación de un tipo penal.</td></tr>
           </tbody>
         </table>
       </div>
@@ -1391,18 +1571,15 @@
         <p>Números que aparecen en los documentos.</p>
       </div>
       <div class="chips">
-        <span class="chip"><b>103 → &lt;8</b> homicidios por 100,000 · El Salvador 2015-2023</span>
+        <span class="chip"><b>Roxin</b> · Berlín 1970</span>
+        <span class="chip"><b>Beccaria</b> · 1764</span>
+        <span class="chip"><b>Kleinschrod</b> · medios del legislador</span>
+        <span class="chip"><b>4 D</b> · 4 filtros</span>
+        <span class="chip"><b>9 de 10</b> · programas previos a 1970</span>
         <span class="chip"><b>11.5 → 5.2</b> · Costa Rica 2011-2019</span>
+        <span class="chip"><b>40 %</b> · Barrio Seguro</span>
         <span class="chip"><b>−14 % / −9 %</b> · Vive Seguro, Ecuador</span>
-        <span class="chip"><b>40 %</b> · Barrio Seguro, Brasil</span>
-        <span class="chip"><b>57 / 24 / 19</b> · reincidencia La Joya</span>
-        <span class="chip"><b>300-500</b> internos por galera</span>
-        <span class="chip"><b>1-3 años</b> · SCP</span>
-        <span class="chip"><b>1 año</b> · verificación de mediación</span>
-        <span class="chip"><b>Ley 82/2013</b> · femicidio</span>
-        <span class="chip"><b>Ley 16/2016</b> · justicia de paz</span>
-        <span class="chip"><b>Ley 81/2019</b> · datos y delitos informáticos</span>
-        <span class="chip"><b>Ley 476/2025</b> · hurto pecuario</span>
+        <span class="chip"><b>Tokio 1970</b> · IV Congreso ONU</span>
       </div>
 
       <div class="section-head">
@@ -1410,31 +1587,31 @@
         <p>Si tienes poco tiempo, sigue este orden.</p>
       </div>
       <div class="grid grid-2">
-        <a class="quick-item" href="#/parcial/parcial-10-integrador">
-          <span class="quick-ico orange">${icon("exam")}</span>
-          <span><strong>1. Diagnóstico</strong><span>Haz el integrador y mira qué falla.</span></span>
+        <a class="quick-item" href="#/lectura/roxin">
+          <span class="quick-ico orange">${icon("read")}</span>
+          <span><strong>1. Concepto</strong><span>Roxin, von Liszt, Feuerbach y la dogmática.</span></span>
           ${icon("arrow", "arrow")}
         </a>
-        <a class="quick-item" href="#/quiz/conciliacion-y-mediacion">
-          <span class="quick-ico">${icon("quiz")}</span>
-          <span><strong>2. Salidas alternas</strong><span>Quizzes 18 y 19, luego parciales 7 y 8.</span></span>
+        <a class="quick-item" href="#/lectura/origenes">
+          <span class="quick-ico">${icon("book")}</span>
+          <span><strong>2. Capítulo I</strong><span>Las cinco etapas y los nombres.</span></span>
           ${icon("arrow", "arrow")}
         </a>
-        <a class="quick-item" href="#/quiz/constitucion-cpp-y-sistema-acusatorio">
-          <span class="quick-ico orange">${icon("shield")}</span>
-          <span><strong>3. Bases legales</strong><span>Artículos 12 y 26, garantías y SPA.</span></span>
+        <a class="quick-item" href="#/quiz/cuatro-d">
+          <span class="quick-ico orange">${icon("quiz")}</span>
+          <span><strong>3. Cuatro D</strong><span>Casos para distinguir sanción, cárcel, juicio y delito.</span></span>
           ${icon("arrow", "arrow")}
         </a>
-        <a class="quick-item" href="#/parcial/parcial-9-casos-comparados">
-          <span class="quick-ico">${icon("target")}</span>
-          <span><strong>4. Casos y modelos</strong><span>Parcial 9 y quizzes 3 a 6.</span></span>
+        <a class="quick-item" href="#/parcial/parcial-2-oficial">
+          <span class="quick-ico">${icon("exam")}</span>
+          <span><strong>4. Simulacro oficial</strong><span>20 preguntas de los cinco temas, con tiempo.</span></span>
           ${icon("arrow", "arrow")}
         </a>
       </div>
 
       <div class="callout" style="margin-top:22px">
         ${icon("book")}
-        <div><strong>Esto es una estimación.</strong> Sale de la planificación ICS-402B y de los documentos que están en la carpeta. No reemplaza leerlos ni asistir a clase. Si la profesora dio indicaciones nuevas, esas mandan.</div>
+        <div><strong>Esto es una guía, no una filtración.</strong> Sale de la lista de temas que dio la profesora y de los PDF de la carpeta. No reemplaza leerlos ni asistir a clase. Si ella dio una indicación nueva, esa manda.</div>
       </div>
     `;
     updateChrome();
@@ -1485,11 +1662,12 @@
           <tbody>
             ${PARCIALES.map((p) => {
               const r = S.parciales[p.id];
+              const total = p.preguntas.length;
               return `<tr>
                 <td><a href="#/parcial/${p.slug}" style="text-decoration:none"><strong>${esc(p.titulo)}</strong></a></td>
                 <td>${esc(p.tema)}</td>
-                <td>${r ? r.best + "/10" : "—"}</td>
-                <td>${r ? r.last + "/10 · " + fmtDate(r.at) : "—"}</td>
+                <td>${r ? r.best + "/" + total : "-"}</td>
+                <td>${r ? r.last + "/" + total + " · " + fmtDate(r.at) : "-"}</td>
                 <td>${r ? r.attempts || 1 : 0}</td>
               </tr>`;
             }).join("")}
@@ -1629,6 +1807,7 @@
     const parts = path.split("/").filter(Boolean);
 
     if (parts.length === 0) return renderHome();
+    if (parts[0] === "parcial2" && parts.length === 1) return renderParcial2();
     if (parts[0] === "lectura" && parts.length === 1) return renderLectura();
     if (parts[0] === "lectura" && parts[1]) return renderCapitulo(parts[1]);
     if (parts[0] === "flashcards" && parts.length === 1) return renderFlashcards();

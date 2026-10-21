@@ -1,5 +1,5 @@
 /* =========================================================
-   Banco de preguntas · Zona de quiz (20 quizzes × 5)
+   Banco de preguntas · Zona de quiz (20 quizzes base + 5 del Parcial 2)
    Todo el contenido proviene de los documentos de la carpeta
    "parcial diana". No hay preguntas inventadas fuera de ellos.
    ========================================================= */

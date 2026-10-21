@@ -1,5 +1,5 @@
 /* =========================================================
-   Parciales · 10 simulacros de 10 preguntas
+   Simulacros · 10 recorridos + 1 parcial oficial del Parcial 2
    Mezcla de selección múltiple y verdadero/falso.
    t: "mc" (opciones) | "vf" (verdadero/falso)
    ========================================================= */
@@ -8,7 +8,7 @@ window.PARCIALES = [
   {
     id: "p01",
     slug: "parcial-1-concepto-modelos",
-    titulo: "Parcial 1 · Concepto y modelos",
+    titulo: "Simulacro 1 · Concepto y modelos",
     tema: "Eje 1",
     desc: "Qué es la política criminal, de dónde viene y cómo se clasifica.",
     minutos: 20,
@@ -28,7 +28,7 @@ window.PARCIALES = [
   {
     id: "p02",
     slug: "parcial-2-estado-prevencion",
-    titulo: "Parcial 2 · Estado, reformas y prevención",
+    titulo: "Simulacro 2 · Estado, reformas y prevención",
     tema: "Eje 1",
     desc: "Límites del poder penal, leyes panameñas y prevención.",
     minutos: 20,
@@ -48,7 +48,7 @@ window.PARCIALES = [
   {
     id: "p03",
     slug: "parcial-3-prevencion-comparada",
-    titulo: "Parcial 3 · Prevención comparada",
+    titulo: "Simulacro 3 · Prevención comparada",
     tema: "Eje 1",
     desc: "Programas, cifras y factores de la prevención.",
     minutos: 20,
@@ -68,7 +68,7 @@ window.PARCIALES = [
   {
     id: "p04",
     slug: "parcial-4-resocializacion",
-    titulo: "Parcial 4 · Resocialización y cárceles",
+    titulo: "Simulacro 4 · Resocialización y cárceles",
     tema: "Eje 1",
     desc: "Reincidencia, La Joya, La Joyita y seguimiento al egresado.",
     minutos: 20,
@@ -88,7 +88,7 @@ window.PARCIALES = [
   {
     id: "p05",
     slug: "parcial-5-panama-integral",
-    titulo: "Parcial 5 · Política criminal en Panamá",
+    titulo: "Simulacro 5 · Política criminal en Panamá",
     tema: "Eje 2",
     desc: "Instituciones, coordinación y reformas penales.",
     minutos: 20,
@@ -108,7 +108,7 @@ window.PARCIALES = [
   {
     id: "p06",
     slug: "parcial-6-bases-legales",
-    titulo: "Parcial 6 · Bases constitucionales y CPP",
+    titulo: "Simulacro 6 · Bases constitucionales y CPP",
     tema: "Eje 3",
     desc: "Artículos 12 y 26, garantías y sistema acusatorio.",
     minutos: 20,
@@ -128,7 +128,7 @@ window.PARCIALES = [
   {
     id: "p07",
     slug: "parcial-7-salidas-alternas",
-    titulo: "Parcial 7 · Conciliación y mediación",
+    titulo: "Simulacro 7 · Conciliación y mediación",
     tema: "Eje 3",
     desc: "Artículos 204, 206 y 207-211 del CPP.",
     minutos: 20,
@@ -148,7 +148,7 @@ window.PARCIALES = [
   {
     id: "p08",
     slug: "parcial-8-oportunidad-pena",
-    titulo: "Parcial 8 · Oportunidad y pena",
+    titulo: "Simulacro 8 · Oportunidad y pena",
     tema: "Eje 3",
     desc: "Criterios de oportunidad, SCP y mínima intervención.",
     minutos: 20,
@@ -168,7 +168,7 @@ window.PARCIALES = [
   {
     id: "p09",
     slug: "parcial-9-casos-comparados",
-    titulo: "Parcial 9 · Casos comparados",
+    titulo: "Simulacro 9 · Casos comparados",
     tema: "Eje 1 · Casos",
     desc: "El Salvador, Colombia y México, como en el taller.",
     minutos: 20,
@@ -188,7 +188,7 @@ window.PARCIALES = [
   {
     id: "p10",
     slug: "parcial-10-integrador",
-    titulo: "Parcial 10 · Integrador",
+    titulo: "Simulacro 10 · Integrador",
     tema: "Ejes 1, 2 y 3",
     desc: "Simulacro final con lo esencial de todo el curso.",
     minutos: 20,

@@ -237,7 +237,7 @@ window.LECTURA = [
       "Oportunidad: solo el Ministerio Público; SCP: el juez, por 1 a 3 años."
     ],
     bloques: [
-      { p: "Este es el corazón del Eje 3 y el tema más probable del Parcial 2. La planificación lo evalúa con un **cuestionario presencial** y el material de clase le dedica un documento completo. Si solo tenés tiempo para un capítulo, es este." },
+      { p: "Este es el corazón del **Eje 3** y el material más extenso sobre salidas alternas. Ojo: **no está en la lista oficial de cinco temas del Parcial 2** que dio la profesora. Si tu parcial es el segundo, prioriza la sección “Parcial 2”; si es recuperación o integrador, este capítulo sigue siendo clave." },
       { p: "Las salidas alternas son mecanismos para resolver el conflicto penal sin llegar a juicio. No son “impunidad”: imponen condiciones, buscan reparar el daño y descongestionar el sistema. El CPP las regula en el Título IV del Libro Segundo." },
       { tabla: {
         head: ["Figura", "Norma", "Quién la aplica", "Plazo / efecto"],
@@ -298,6 +298,171 @@ window.LECTURA = [
     fuentes: ["Salidas alternas de resolución de conflictos en el sistema penal acusatorio.", "Taller Formativo en clases.", "Planificación Didáctica de Política Criminal (ICS-402B), 2026."]
   }
 ];
+
+/* Capítulos nuevos del Parcial 2. Se agregan al final del arreglo,
+   pero la app los prioriza al inicio de la lectura guiada. */
+window.LECTURA.push(
+  {
+    id: "roxin",
+    titulo: "El concepto de Roxin (Borja Jiménez)",
+    resumen: "Qué dijo Roxin en Berlín en 1970, qué discutía con von Liszt y por qué las garantías también son política criminal.",
+    minutos: 7,
+    clave: [
+      "Roxin define la política criminal por su objeto: cómo tratar a quienes atentan contra las reglas básicas de la convivencia.",
+      "No separa dogmática y política criminal: propone un sistema penal abierto a las valoraciones político-criminales.",
+      "Las garantías (nullum crimen, culpabilidad) no son un freno externo: también forman parte de la política criminal del Estado de derecho."
+    ],
+    bloques: [
+      { p: "El artículo de Emiliano Borja Jiménez no es un manual: es una reconstrucción del concepto de política criminal en Claus Roxin. Su tesis central es que Roxin no la encerró en un compartimento separado de la dogmática, sino que la usó para **abrir el sistema penal a las valoraciones político-criminales**." },
+      { h: "La definición que hay que saber" },
+      { cita: "“La cuestión de cómo debe tratarse a las personas que atentan contra las reglas básicas de la convivencia social y con ello lesionan o ponen en peligro al individuo o a la comunidad constituye el objeto principal de la Política Criminal.” — Roxin, citado por Borja Jiménez" },
+      { p: "Roxin la ubica en una **posición intermedia entre ciencia y configuración social, entre teoría y práctica**. Como ciencia se apoya en el conocimiento objetivo del delito, en sus formas jurídicas y empíricas. Como política persigue ideas o intereses concretos. Como teoría intenta desarrollar una estrategia de lucha contra el delito; como práctica depende de las realidades que ya existen." },
+      { h: "Von Liszt y Feuerbach: dos formas de mirar la reacción penal" },
+      { p: "**Von Liszt** entendía la política criminal como el conjunto de estrategias de las que disponía el Estado para reaccionar frente al fenómeno criminal. A él se atribuyen las frases “el Derecho penal es la Carta Magna del delincuente” y “el Derecho penal es la barrera infranqueable de la política criminal”. La primera protege al imputado; la segunda recuerda que la política criminal no puede saltarse el Derecho penal." },
+      { p: "**Feuerbach**, en cambio, la reducía al conjunto de métodos represivos con los que el Estado reacciona contra el crimen. Es una definición centrada en el castigo, no en la prevención." },
+      { p: "Roxin advierte que la frase de von Liszt sobre la “barrera infranqueable” fue entendida por la tradición alemana de forma demasiado amplia, como una oposición general a considerar fines político-criminales en la aplicación del Derecho penal. Esa lectura, dice, perjudicó a la propia dogmática." },
+      { h: "Qué cambió con la conferencia de 1970" },
+      { p: "Antes de la conferencia de **Berlín, 1970**, dogmática penal y política criminal se veían como dos sectores con ámbitos y fines autónomos. Roxin propone superar esa separación: un **sistema de Derecho penal abierto**, capaz de recibir las valoraciones político-criminales y orientado a las consecuencias." },
+      { p: "El punto fino es este: para Roxin, las garantías clásicas —el **nullum crimen sine lege** y el principio de **culpabilidad**— también son postulados político-criminales. No son un límite externo que la política criminal sufre, sino parte de una política criminal propia de un Estado de derecho. La prevención y la limitación de la pena son dos caras del mismo proyecto." },
+      { h: "La crítica de Borja" },
+      { p: "Borja muestra que el concepto de Roxin es sobre todo **política criminal dogmática**: le interesa cómo se traducen las valoraciones político-criminales dentro del sistema penal, no construir una teoría general de la política criminal estatal. Por eso distingue la **política criminal legislativa** (las razones y criterios del legislador al crear la ley penal) de la **política criminal dogmática** (la que se elabora al interpretar y sistematizar esa ley)." },
+      { p: "También señala que Roxin usa un concepto amplio de política criminal, que puede incluir políticas sociales, pero advierte que el Derecho penal no debe ser una “huida” para resolver problemas sociales que corresponden a otras instancias." },
+      { h: "Cómo responder en el parcial" },
+      { ul: [
+        "Si preguntan **qué es** para Roxin: objeto principal + posición intermedia entre ciencia y política + estrategia contra el delito.",
+        "Si preguntan **qué relación tiene con la dogmática**: no son compartimentos separados; el sistema se abre a valoraciones político-criminales, sin perder las garantías.",
+        "Si preguntan **qué dijo von Liszt**: estrategias del Estado frente al crimen; Carta Magna del delincuente; barrera infranqueable.",
+        "Si preguntan **qué dijo Feuerbach**: conjunto de métodos represivos con los que el Estado reacciona contra el crimen.",
+        "Si preguntan **cuándo**: conferencia de Berlín, 1970."
+      ] },
+      { dato: "Trampa típica: decir que Roxin separó la dogmática de la política criminal. Él hizo lo contrario: las integró. La separación venía de antes; la lectura tradicional de la frase de von Liszt contribuyó a consolidarla." }
+    ],
+    fuentes: ["Borja Jiménez, E. (2003). Sobre el concepto de política criminal. Una aproximación a su significado desde la obra de Claus Roxin.", "Roxin, C. Política criminal y sistema de Derecho penal (citado por Borja Jiménez)."]
+  },
+  {
+    id: "origenes",
+    titulo: "Capítulo I: orígenes científicos",
+    resumen: "La historia que pide el Tratado: etapa estática, época dinámica, fase humanitaria, dirección biológica y corriente racionalista.",
+    minutos: 9,
+    clave: [
+      "El Capítulo I no se centra en definir la política criminal: cuenta cómo se formó la disciplina.",
+      "La etapa estática es la de los glosadores; la fase humanitaria se asocia a Beccaria (1764).",
+      "Kleinschrod, Henke y Holtzendorff son los nombres clave de la corriente racionalista."
+    ],
+    bloques: [
+      { p: "El PDF se llama “Capítulo 1 Libro Tratado de Política Criminal” y su título interno es **“Orígenes científicos de la política criminal”**. Eso ya es una pista: su hilo no es definirla, sino reconstruir las etapas y los autores que prepararon la disciplina." },
+      { p: "Si el examen pregunta “¿qué es la política criminal?”, la respuesta principal no está aquí: está en Borja Jiménez o en García Aquino. Este capítulo se usa para preguntas de **evolución, etapas, autores y obras**." },
+      { tabla: {
+        head: ["Etapa", "Época / referente", "Qué la caracteriza", "Nombres que aparecen"],
+        rows: [
+          ["Etapa estática", "Glosadores italianos medievales", "Comentario legal y citas doctrinales, sin propuesta de reforma.", "Egidio Bossio, Julio Claro, Tiberio Deciano, Hipólito Marsilio Bononiense, Pedro Follerio, Aretinus, Farinacio."],
+          ["Época dinámica", "Siglos XVII-XVIII", "Sistematización de la materia; se prepara el giro humanitario.", "Cremari, Nani, Renazzi."],
+          ["Fase humanitaria", "Beccaria, 1764", "Crítica a las acusaciones secretas, tormentos, penas perpetuas, trabajos forzados y pena de muerte.", "Beccaria; Saldaña como crítico."],
+          ["Dirección biológica o realista", "Siglo XIX", "Explicación del delito por factores biológicos, sociales y preventivos.", "Tomaso Natale, Carrara, Carmignani, Dorado Montero, Saldaña, Lombroso, Ferri, Garofalo."],
+          ["Corriente racionalista", "Siglos XVIII-XIX", "La política criminal como ciencia de los medios del legislador; base de la política penitenciaria.", "Wolff, Engelhardt, Arnim, Globin, Gmelin, Feuerbach, Henke, Holtzendorff, Kleinschrod, Mittermaier, Richter."]
+        ]
+      } },
+      { h: "Etapa estática: comentar sin reformar" },
+      { p: "Los **glosadores italianos medievales** no propusieron reformar las instituciones punitivas inadecuadas o ineficaces. Se limitaron a enunciar fórmulas legales y citas doctrinales, muchas veces mezcladas, sin que se pudiera distinguir con claridad dónde terminaba el Derecho aplicable y dónde comenzaba la glosa." },
+      { p: "Después aparecen los **jurisconsultos prácticos italianos**, que iniciaron la obra monográfica y específicamente dedicada al Derecho penal. El capítulo cita a Egidio Bossio, Julio Claro, Tiberio Deciano, Hipólito Marsilio Bononiense, Pedro Follerio, Aretinus y Farinacio. Tampoco llegan a hacer una crítica sistemática de las instituciones." },
+      { h: "Época dinámica y fase humanitaria" },
+      { p: "En la **época dinámica** (siglos XVII-XVIII) la materia se sistematiza. El capítulo menciona a Cremari, Nani y Renazzi. Es el puente hacia la fase humanitaria." },
+      { p: "La **fase humanitaria** tiene su símbolo en **Cesare Beccaria** y su obra *De los delitos y de las penas* (1764). Beccaria critica las acusaciones secretas, los tormentos, las penas perpetuas, los trabajos forzados y la pena de muerte. Saldaña reconoce el valor de su crítica, pero le objeta que no formuló un sistema completo ni un programa positivo de reforma." },
+      { h: "Dirección biológica o realista" },
+      { p: "Esta dirección busca explicar el delito por factores biológicos, psicológicos y sociales, y propone prevenirlo. El capítulo menciona a **Tomaso Natale**, a **Carrara** (que habla de “política o buen gobierno”), a **Carmignani** (“teoría de las leyes de la seguridad social”), a **Dorado Montero** (“Derecho penal preventivo”) y a **Saldaña** (“arte de prevenir los delitos”). A esta línea se suman los positivistas **Lombroso, Ferri y Garofalo**." },
+      { h: "Corriente racionalista: los nombres del examen" },
+      { p: "Antes de Beccaria, **Wolff** y **Engelhardt** ya habían planteado una política criminal racional. Después aparecen Arnim, Globin, Gmelin y otros. El capítulo considera maestros de esta corriente a **Feuerbach, Henke, Holtzendorff, Kleinschrod, Mittermaier y Richter**." },
+      { p: "**Kleinschrod** da una definición que conviene memorizar: la política criminal es el conocimiento de aquellos medios que el legislador puede y debe hallar, según la especial disposición de cada Estado, para impedir los delitos y proteger el Derecho natural de sus súbditos." },
+      { p: "**Henke** exige tres presupuestos metodológicos: primero, conocer la naturaleza humana; segundo, estudiar la antropología, la historia, el origen del delito y las condiciones sociales; tercero, conocer el mal penal según la cultura y las costumbres." },
+      { p: "**Holtzendorff** considera la política criminal como parte integrante de la ciencia del Derecho penal y distingue la perspectiva del legislador de la del juez. De la corriente racionalista deriva la **política penitenciaria** (Arnim, Krohne, Yagemann) y, más tarde, Berner, Geyer, Richard, Pessina y Manzini." },
+      { dato: "Si la pregunta es de definición, no respondas con el Capítulo I. Si es de historia, no respondas solo con Beccaria: el capítulo tiene cinco etapas y varios nombres." }
+    ],
+    fuentes: ["Blanco Lozano, C. (2008). Tratado de Política Criminal, Tomo II: la política criminal aplicada. Capítulo I: Orígenes científicos de la política criminal.", "Kleinschrod, citado en el Capítulo I."]
+  },
+  {
+    id: "estado-derecho",
+    titulo: "Estado de derecho: límites, misión y víctima",
+    resumen: "García Aquino: los dos sentidos, los cuatro principios, las misiones, la víctima, el funcionalismo y la seguridad.",
+    minutos: 8,
+    clave: [
+      "La política criminal no puede incriminar conductas lejanas al riesgo de un bien jurídico.",
+      "Misión inmediata: respuesta preventiva. Misión mediata: dignidad, igualdad, justicia social y paz.",
+      "La víctima no es un apéndice: la política criminal corrige su tratamiento con apoyo de la victimología y la victimo-dogmática."
+    ],
+    bloques: [
+      { p: "El artículo de García Aquino es la referencia para entender la política criminal **dentro de un Estado democrático de derecho**. No se queda en la definición: explica qué puede hacer el Estado, qué no puede hacer y cuál es la misión de la política criminal." },
+      { h: "Los dos sentidos" },
+      { p: "En **sentido político**, la política criminal es el conjunto de medidas y criterios de carácter jurídico, social, educativo, económico y de índole similar, establecidos por los poderes públicos para **prevenir y reaccionar** frente al fenómeno criminal, con el fin de mantener la criminalidad bajo límites tolerables." },
+      { p: "En **sentido académico**, es el sector del conocimiento que estudia esas medidas, criterios y argumentos. Una cosa es la decisión política y otra el estudio sistemático de esas decisiones." },
+      { h: "Los límites del poder penal" },
+      { p: "En un Estado democrático de derecho, la política criminal debe respetar estrictamente las **garantías de la persona**. No puede incriminar conductas que todavía no ponen en riesgo un bien jurídico, ni adelantar la línea de defensa penal hasta confundir la prevención con un derecho penal de autor." },
+      { tabla: {
+        head: ["Principio", "Qué exige"],
+        rows: [
+          ["Legalidad", "Ley previa, escrita y estricta; no hay delito ni pena sin ley."],
+          ["Mínima intervención", "El Derecho penal es ultima ratio: solo actúa cuando el conflicto no puede resolverse por otras vías."],
+          ["Proporcionalidad", "La respuesta penal debe ser adecuada a la gravedad del hecho y al daño causado."],
+          ["Culpabilidad", "No basta el resultado: se exige dolo o culpa, conciencia de ilicitud, imputabilidad y exigibilidad."]
+        ]
+      } },
+      { h: "Misión inmediata y misión mediata" },
+      { p: "La **misión inmediata** es elaborar o “construir” una mejor respuesta preventiva frente a determinados hechos antisociales que no son tolerados socialmente y no permiten el libre desarrollo de la personalidad, a fin de mantener la criminalidad bajo límites." },
+      { p: "La **misión mediata** es proteger y promover el respeto de la dignidad humana y los principios que se derivan de ella, así como valores como la igualdad y la justicia social, para crear y mantener la paz social y fortalecer el sistema democrático." },
+      { p: "La política criminal cumple esa misión **transformando la información** que aporta la criminología sobre el delito, el delincuente, la víctima y el control social en opciones, alternativas y programas, desde una perspectiva valorativa y garantista." },
+      { h: "La víctima y el Derecho penal funcionalista" },
+      { p: "La política criminal debe ocuparse de la **víctima** y corregir los defectos y excesos en su tratamiento dentro del sistema penal. La victimología y la victimo-dogmática la reivindican; no basta con indemnizarla: la víctima tiene un papel activo en el conflicto y en la respuesta penal." },
+      { p: "García Aquino se apoya en el **Derecho penal funcionalista** de Roxin, orientado teleológicamente a la política criminal: el Derecho penal protege bienes jurídicos y previene delitos futuros. Lo opone al retribucionismo preventivo de **Welzel** y a la prevención general radical de **Jakobs**." },
+      { h: "Seguridad: un bien jurídico, no una excusa" },
+      { p: "La seguridad es tarea del Estado y de la sociedad. La política criminal adopta medidas concretas frente a conflictos e inseguridad, pero no puede ofrecer “seguridad para todos” a costa de los derechos de los más vulnerables. La seguridad ciudadana es un bien jurídico, no solo una sensación." },
+      { dato: "Si el caso dice “se castigó a alguien por lo que parece o por lo que podría hacer”, la respuesta es: se violó la mínima intervención y la lesividad; no se puede incriminar lo lejano al riesgo de un bien jurídico." }
+    ],
+    fuentes: ["García Aquino, J. Política criminal en un Estado de derecho.", "Roxin, C. Derecho penal funcionalista (citado por García Aquino)."]
+  },
+  {
+    id: "cuatro-d",
+    titulo: "Las cuatro D: reacción social",
+    resumen: "Despenalización, desprisionalización, desjudicialización y descriminalización: definición, diferencia y casos.",
+    minutos: 8,
+    clave: [
+      "Despenalización: cambia la sanción o la jurisdicción; la conducta sigue regulada.",
+      "Desprisionalización: evita la cárcel; desjudicialización: evita el juicio.",
+      "Descriminalización: la conducta deja de ser delito."
+    ],
+    bloques: [
+      { p: "La profesora asignó las **“Estrategias de reacción social”** y el **Capítulo IV de Reyes Echandía, “Otras formas de reacción social”**. La idea común es que el Derecho penal no tiene que responder a todo con cárcel y juicio: existen filtros que reducen la reacción penal." },
+      { p: "Las cuatro estrategias se confunden porque todas suenan a “menos pena”. La diferencia está en **qué parte del sistema se toca**: la sanción, la prisión, el proceso o la definición misma del delito." },
+      { tabla: {
+        head: ["Estrategia", "Qué toca", "Qué pasa con la conducta", "Ejemplo"],
+        rows: [
+          ["Despenalización", "La sanción penal", "Sigue regulada, pero la respuesta ya no es el castigo penal tradicional; pasa a otra jurisdicción.", "Una falta antes castigada con días de cárcel pasa a multa administrativa."],
+          ["Desprisionalización", "La ejecución de la pena", "Sigue siendo delito y hay responsabilidad penal, pero se cumple fuera de la cárcel.", "Trabajo comunitario o libertad vigilada en lugar de prisión."],
+          ["Desjudicialización", "El proceso", "El conflicto se resuelve sin juicio formal, por una vía alternativa.", "Mediación o conciliación."],
+          ["Descriminalización", "La definición del delito", "La conducta deja de ser delito; pasa a ser lícita o indiferente.", "Derogación de un tipo penal."]
+        ]
+      } },
+      { h: "Despenalización" },
+      { p: "Es el proceso por el cual una conducta descrita en la ley penal como delito **sale de la esfera penal** para ser sancionada en una jurisdicción diversa: civil, comercial o administrativa. No transforma lo ilícito en lícito: cambia la naturaleza de la sanción. Por eso la conducta sigue regulada, pero ya no con el castigo penal tradicional." },
+      { h: "Desprisionalización" },
+      { p: "Busca reducir el uso de la **prisión** como mecanismo de castigo y sustituirla por medidas que permitan la rehabilitación. La persona sigue siendo penalmente responsable, pero cumple la sanción fuera de la cárcel. La prisión debe ser *ultima ratio*." },
+      { p: "Reyes Echandía menciona la libertad vigilada, la libertad bajo palabra, la condena de ejecución condicional, la multa, el trabajo obligatorio en empresas públicas o comunitarias y la suspensión de licencia profesional. Entre sus ventajas: menor costo, evita el desarraigo y el trauma del encierro, reduce la reacción negativa del interno y produce un beneficio social." },
+      { h: "Desjudicialización" },
+      { p: "Procura que determinados conflictos se solucionen mediante **vías alternativas**, evitando el desgaste de un proceso judicial completo y formalista. Puede ser **de facto** (la gente no denuncia por desconfianza, miedo o costo) o **de jure** (el legislador elimina la instancia judicial y remite el conflicto a otra instancia)." },
+      { p: "El capítulo habla de disciplinas extrajurídicas —laboral, psicológica, sociológica, médica, educativa, económica— y de la policía como “amigable componedora” en faltas menores. También advierte que no siempre es deseable: puede dejar conflictos sin respuesta si no se crean alternativas reales." },
+      { h: "Descriminalización" },
+      { p: "Hace desaparecer del catálogo de delitos o contravenciones un modelo de comportamiento humano, que a partir de entonces es **jurídicamente lícito o indiferente**. No es un cambio de sanción: es la eliminación del carácter delictivo." },
+      { p: "El capítulo dice que, teóricamente, ocurre cuando la reacción social mayoritaria cambia del repudio a la tolerancia o la indiferencia; realmente, cuando el poder dominante decide que la protección penal ya no es necesaria. Cita como ejemplos el incesto, la bigamia y la homosexualidad." },
+      { h: "Cómo distinguirlas en un caso" },
+      { ul: [
+        "**¿La conducta sigue siendo delito?** Si deja de serlo, es descriminalización. Si sigue siéndolo, mira la siguiente pregunta.",
+        "**¿Cambió la sanción o la jurisdicción?** Si pasa a multa administrativa o a otra rama, es despenalización.",
+        "**¿Se evita la cárcel?** Si la pena se cumple fuera de prisión, es desprisionalización.",
+        "**¿Se evita el juicio?** Si se resuelve por mediación, conciliación u otra vía, es desjudicialización."
+      ] },
+      { dato: "Regla de bolsillo: despenalización = quitar o cambiar la sanción; desprisionalización = quitar la celda; desjudicialización = quitar el juicio; descriminalización = quitar la etiqueta de delito." }
+    ],
+    fuentes: ["Estrategias de reacción social. Despenalización, Desprisionalización, Desjudicialización y Descriminalización. UNACHI, Política Criminal, Diana L. Núñez.", "Reyes Echandía, A. Política criminal. Capítulo IV: Otras formas de reacción social."]
+  }
+);
 
 window.FLASHCARDS = [
   {
